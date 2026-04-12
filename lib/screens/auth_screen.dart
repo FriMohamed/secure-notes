@@ -20,7 +20,7 @@ class _AuthscreenState extends State<Authscreen> {
         ),
       );
       if (result){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
       }
     } catch (e) {
       print("Error: $e");

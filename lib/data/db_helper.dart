@@ -22,12 +22,20 @@ class AppDatabase {
 
   Future _createNotesTable(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE notes (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT NOT NULL,
-        description TEXT NOT NULL,
-      )
-    ''');
+    CREATE TABLE notes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      description TEXT NOT NULL
+    )
+  ''');
+
+    for (int i = 1; i <= 10; i++) {
+      await db.insert('notes', {
+        'title': 'Note $i',
+        'description': 'This is the description for secure note number $i.',
+        // Note: If you want to store time, you MUST add a createdTime column above!
+      });
+    }
   }
 
   Future close() async {
