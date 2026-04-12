@@ -19,7 +19,9 @@ class _AuthscreenState extends State<Authscreen> {
           biometricOnly: true,
         ),
       );
+      if (result){
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      }
     } catch (e) {
       print("Error: $e");
     }
