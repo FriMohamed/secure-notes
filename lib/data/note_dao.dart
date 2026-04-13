@@ -48,8 +48,8 @@ class NoteDao {
     return await db.delete('notes', where: 'id = ?', whereArgs: [id]);
   }
 
-  Future<int> deleteAllNotes() async {
+  Future<void> deleteAllNotes() async {
     final db = await _dbProvider.db;
-    return await db.delete('notes');
+     await db.delete('notes');
   }
 }

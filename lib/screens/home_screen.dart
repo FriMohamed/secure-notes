@@ -80,6 +80,15 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.appName),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await _noteDao.deleteAllNotes();
+              setState(() => _notes.clear());
+            },
+            icon: const Icon(Icons.delete_forever),
+          ),
+        ],
       ),
 
       body: _isLoading
