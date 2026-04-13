@@ -111,6 +111,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New Note'**
   String get addNote;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @titleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get titleHint;
+
+  /// No description provided for @descriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Start typing...'**
+  String get descriptionHint;
+
+  /// No description provided for @noNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'No notes yet'**
+  String get noNotes;
+
+  /// No description provided for @titleRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Title is required'**
+  String get titleRequired;
+
+  /// No description provided for @descriptionRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Description is required'**
+  String get descriptionRequired;
+
+  /// No description provided for @unlockApp.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock App'**
+  String get unlockApp;
+
+  /// No description provided for @useFingerprint.
+  ///
+  /// In en, this message translates to:
+  /// **'Use your fingerprint to continue'**
+  String get useFingerprint;
+
+  /// No description provided for @scan.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan'**
+  String get scan;
+
+  /// No description provided for @authRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication is required to access the app'**
+  String get authRequired;
+
+  /// No description provided for @scanFingerprintReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan your fingerprint'**
+  String get scanFingerprintReason;
 }
 
 class _AppLocalizationsDelegate

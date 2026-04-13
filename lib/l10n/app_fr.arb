@@ -1,4 +1,15 @@
 {
   "appName": "Notes Sécurisées",
-  "addNote": "Nouvelle Note"
+  "addNote": "Nouvelle Note",
+  "save": "Enregistrer",
+  "titleHint": "Titre",
+  "descriptionHint": "Commencez à écrire...",
+  "noNotes": "Aucune note pour le moment",
+  "titleRequired": "Le titre est requis",
+  "descriptionRequired": "La description est requise",
+  "unlockApp": "Déverrouiller l'application",
+  "useFingerprint": "Utilisez votre empreinte digitale pour continuer",
+  "scan": "Scanner",
+  "authRequired": "L'authentification est requise pour accéder à l'application",
+  "scanFingerprintReason": "Scannez votre empreinte"
 }

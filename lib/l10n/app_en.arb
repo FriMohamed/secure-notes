@@ -1,4 +1,15 @@
 {
   "appName": "Secure Notes",
-  "addNote": "New Note"
+  "addNote": "New Note",
+  "save": "Save",
+  "titleHint": "Title",
+  "descriptionHint": "Start typing...",
+  "noNotes": "No notes yet",
+  "titleRequired": "Title is required",
+  "descriptionRequired": "Description is required",
+  "unlockApp": "Unlock App",
+  "useFingerprint": "Use your fingerprint to continue",
+  "scan": "Scan",
+  "authRequired": "Authentication is required to access the app",
+  "scanFingerprintReason": "Scan your fingerprint"
 }

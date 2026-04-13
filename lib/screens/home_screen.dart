@@ -3,8 +3,8 @@ import 'package:secure_notes/data/note_dao.dart';
 import 'package:secure_notes/l10n/app_localizations.dart';
 import 'package:secure_notes/models/note.dart';
 import 'package:secure_notes/screens/note_details_screen.dart';
-import 'package:secure_notes/screens/newnote_screen.dart';
-import 'package:secure_notes/screens/note_edit_screen.dart';
+import 'package:secure_notes/screens/new_note_screen.dart';
+
 class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -12,23 +12,65 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final NoteDao _noteDao = NoteDao.instance;
-  final List<Note> _notes = [];
+  List<Note> _notes = [];
   bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    NoteDao.instance.getAllNotes().then((notes) {
-      setState(() {
-        _notes.addAll(notes);
-        _isLoading = false;
-      });
+    _loadNotes();
+  }
+
+  Future<void> _loadNotes() async {
+    final notes = await _noteDao.getAllNotes();
+
+    setState(() {
+      _notes = notes;
+      _isLoading = false;
     });
   }
 
-  void _deleteNote(Note note) {
-    _noteDao.delete(note.id!);
-    _notes.remove(note);
+  Future<void> _deleteNote(Note note) async {
+    await _noteDao.delete(note.id!);
+
+    setState(() {
+      _notes.remove(note);
+    });
+  }
+
+  void _navigateToNewNote() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => NewNoteScreen()),
+    );
+
+    _loadNotes();
+  }
+
+  void _navigateToDetails(Note note) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => NoteDetailsScreen(note: note)),
+    );
+
+    _loadNotes();
+  }
+
+  Future<void> _onReorder(int oldIndex, int newIndex) async {
+    if (newIndex > oldIndex) newIndex--;
+
+    final movedNote = _notes.removeAt(oldIndex);
+    _notes.insert(newIndex, movedNote);
+
+    int start = oldIndex < newIndex ? oldIndex : newIndex;
+    int end = oldIndex > newIndex ? oldIndex : newIndex;
+
+    for (int i = start; i <= end; i++) {
+      final note = _notes[i];
+      note.orderIndex = i;
+      await _noteDao.update(note);
+    }
+
     setState(() {});
   }
 
@@ -37,14 +79,15 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.appName),
-        centerTitle: true,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
 
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _notes.isEmpty
           ? _emptyState()
-          : ListView.builder(
+          : ReorderableListView.builder(
+              onReorder: _onReorder,
               padding: const EdgeInsets.all(12),
               itemCount: _notes.length,
               itemBuilder: (context, index) {
@@ -76,12 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) =>  NewnoteScreen()),
-          );
-        },
+        onPressed: () => _navigateToNewNote(),
         label: Text(AppLocalizations.of(context)!.addNote),
         icon: const Icon(Icons.add),
       ),
@@ -90,42 +128,49 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildNoteCard(Note note) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => NoteDetailsScreen(note: note),
-          ),
-        );
-      },
-      onDoubleTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => NoteEditScreen(note: note),
-            ),
-          );
-      },
+      onTap: () => _navigateToDetails(note),
       child: Card(
-        elevation: 0,
         color: Theme.of(
           context,
         ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
         margin: const EdgeInsets.only(bottom: 12),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
+          contentPadding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  note.title,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+
+              Text(
+                "${note.createdAt.day}/${note.createdAt.month}/${note.createdAt.year}",
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurfaceVariant.withValues(alpha: 0.7),
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
           ),
-          title: Text(
-            note.title,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          subtitle: Text(
-            note.description,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: Text(
+              note.description,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
           ),
         ),
       ),
@@ -144,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SizedBox(height: 20),
           Text(
-            'No notes yet',
+            AppLocalizations.of(context)!.noNotes,
             style: TextStyle(
               fontSize: 18,
               color: Theme.of(context).colorScheme.onSecondaryContainer,

@@ -1,4 +1,15 @@
 {
   "appName": "ملاحظات آمنة",
-  "addNote": "ملاحظة جديدة"
+  "addNote": "ملاحظة جديدة",
+  "save": "حفظ",
+  "titleHint": "العنوان",
+  "descriptionHint": "ابدأ الكتابة...",
+  "noNotes": "لا توجد ملاحظات بعد",
+  "titleRequired": "العنوان مطلوب",
+  "descriptionRequired": "الوصف مطلوب",
+  "unlockApp": "فتح التطبيق",
+  "useFingerprint": "استخدم بصمتك للمتابعة",
+  "scan": "مسح",
+  "authRequired": "المصادقة مطلوبة للوصول إلى التطبيق",
+  "scanFingerprintReason": "قم بمسح بصمتك"
 }

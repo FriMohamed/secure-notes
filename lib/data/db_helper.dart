@@ -25,17 +25,11 @@ class AppDatabase {
     CREATE TABLE notes (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT NOT NULL,
-      description TEXT NOT NULL
+      description TEXT NOT NULL,
+      createdAt TEXT NOT NULL,
+      order_index INTEGER NOT NULL DEFAULT 0
     )
   ''');
-
-    for (int i = 1; i <= 10; i++) {
-      await db.insert('notes', {
-        'title': 'Note $i',
-        'description': 'This is the description for secure note number $i.',
-        // Note: If you want to store time, you MUST add a createdTime column above!
-      });
-    }
   }
 
   Future close() async {

@@ -9,12 +9,27 @@ class NoteDao {
 
   Future<int> addNote(Note note) async {
     final db = await _dbProvider.db;
-    return await db.insert('notes', note.toMap());
+    return await db.transaction((txn) async {
+      final id = await txn.insert('notes', note.toInsertMap());
+      await txn.update(
+        'notes',
+        {'order_index': id},
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+
+      return id;
+    });
   }
 
   Future<List<Note>> getAllNotes() async {
     final db = await _dbProvider.db;
-    final List<Map<String, dynamic>> maps = await db.query('notes');
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      'notes',
+      orderBy: 'order_index ASC',
+    );
+
     return maps.map((map) => Note.fromMap(map)).toList();
   }
 

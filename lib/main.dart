@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:secure_notes/l10n/app_localizations.dart';
-import 'package:secure_notes/screens/home_screen.dart';
 import '../screens/auth_screen.dart';
 void main() {
   runApp(const MyApp());
@@ -27,6 +26,6 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       themeMode: ThemeMode.system,
-      home:  HomeScreen(),
+      home:  Authscreen(),
     );
   }  }  

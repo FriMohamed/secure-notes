@@ -13,4 +13,37 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get addNote => 'ملاحظة جديدة';
+
+  @override
+  String get save => 'حفظ';
+
+  @override
+  String get titleHint => 'العنوان';
+
+  @override
+  String get descriptionHint => 'ابدأ الكتابة...';
+
+  @override
+  String get noNotes => 'لا توجد ملاحظات بعد';
+
+  @override
+  String get titleRequired => 'العنوان مطلوب';
+
+  @override
+  String get descriptionRequired => 'الوصف مطلوب';
+
+  @override
+  String get unlockApp => 'فتح التطبيق';
+
+  @override
+  String get useFingerprint => 'استخدم بصمتك للمتابعة';
+
+  @override
+  String get scan => 'مسح';
+
+  @override
+  String get authRequired => 'المصادقة مطلوبة للوصول إلى التطبيق';
+
+  @override
+  String get scanFingerprintReason => 'قم بمسح بصمتك';
 }
